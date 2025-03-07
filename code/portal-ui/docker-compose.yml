@@ -1,0 +1,40 @@
+version: "3.3"
+
+services:
+  ktiu:
+    restart: always
+    build:
+      context: .
+    container_name: ktiu
+    ports:
+      - "${KTIU_PORT}:9009"
+    environment:
+      - KTIU_LISTEN_ADDR=${KTIU_LISTEN_ADDR}
+      - KTIU_PROXY=${KTIU_PROXY}
+      - KTIU_CSV_API=${KTIU_CSV_API}
+      - KTIU_CSV_ENCODING=${KTIU_CSV_ENCODING}
+      - KTIU_CSV_MAXLINES=${KTIU_CSV_MAXLINES}
+      - KTIU_S3_ENDPOINT=${KTIU_S3_ENDPOINT}
+      - KTIU_S3_ACCESSKEY=${KTIU_S3_ACCESSKEY}
+      - KTIU_S3_SECRETKEY=${KTIU_S3_SECRETKEY}
+      - KTIU_S3_SSL=${KTIU_S3_SSL}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  ktsearch:
+    restart: always
+    build:
+      context: ../kt-search/
+    container_name: ktsearch
+    ports:
+      - "${KTSC_PORT}:9080"
+    environment:
+      - KTSC_LISTEN_ADDR=${KTSC_LISTEN_ADDR}
+      - KTSC_CSV_ENCODING=${KTSC_CSV_ENCODING}
+      - KTSC_CSV_MAXLINES=${KTSC_CSV_MAXLINES}
+      - KTSC_S3_ENDPOINT=${KTSC_S3_ENDPOINT}
+      - KTSC_S3_ACCESSKEY=${KTSC_S3_ACCESSKEY}
+      - KTSC_S3_SECRETKEY=${KTSC_S3_SECRETKEY}
+      - KTSC_S3_SSL=${KTSC_S3_SSL}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

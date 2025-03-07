@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.ag-theme-alpine {
+  --ag-grid-size: 3px;
+  --ag-list-item-height: 20px;
+  --ag-font-size: 10px;
+}
+
+.age-border {
+  border-right: 3px solid red !important;
+  border-left: 3px solid red !important
+}

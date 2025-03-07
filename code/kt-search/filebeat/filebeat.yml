@@ -1,0 +1,40 @@
+logging.level: info
+logging.to_files: false
+logging.to_stderr: true
+
+filebeat.config:
+  modules:
+    path: ${path.config}/modules.d/*.yml
+    reload.enabled: false
+
+filebeat.inputs:
+- type: aws-s3
+  non_aws_bucket_name: "pipeline0"
+  region: "us-east-1"
+  number_of_workers: 5
+  bucket_list_interval: 10s
+  access_key_id: "CiJkleH9J414Cno0QTxS"
+  secret_access_key: "gnb31k6WmkWSy7iXMYwJ7g478mMiRNfWplDYVmYA"
+  endpoint: http://ktio
+  # expand_event_list_from_field: Records
+  file_selectors:
+  - regex: '.*\.csv'
+
+processors:
+  - decode_csv_fields:
+      fields: 
+        message: decoded.csv 
+      separator: ","
+
+output.elasticsearch:
+  hosts: '${ELASTICSEARCH_HOSTS:https://host.docker.internal:9200}'
+  ssl:
+    verification_mode: 'none'
+  username: '${ELASTICSEARCH_USERNAME:elastic}'
+  password: '${ELASTICSEARCH_PASSWORD:qFlt=tpaPzkPB7vSZMJ_}'
+  index: "pipeline0"
+
+setup.template.name: "pipeline0"
+setup.template.pattern: "pipeline0"
+setup.template.overwrite: true
+setup.template.enabled: false

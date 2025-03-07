@@ -1,0 +1,26 @@
+version: "3.3"
+
+services:
+  ktsearch:
+    restart: always
+    build:
+      context: ./
+    container_name: ktsearch
+    ports:
+      - "${KTSC_PORT}:9080"
+    networks:
+      - default
+    environment:
+      - KTSC_LISTEN_ADDR=${KTSC_LISTEN_ADDR}
+      - KTSC_CSV_ENCODING=${KTSC_CSV_ENCODING}
+      - KTSC_CSV_MAXLINES=${KTSC_CSV_MAXLINES}
+      - KTSC_S3_ENDPOINT=${KTSC_S3_ENDPOINT}
+      - KTSC_S3_ACCESSKEY=${KTSC_S3_ACCESSKEY}
+      - KTSC_S3_SECRETKEY=${KTSC_S3_SECRETKEY}
+      - KTSC_S3_SSL=${KTSC_S3_SSL}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+networks:
+  default:
+    driver: bridge

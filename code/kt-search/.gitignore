@@ -1,0 +1,6 @@
+.ipynb_checkpoints/
+.venv/
+node_modules/
+filebeat/data/
+filebeat/modules.d/
+.next/
